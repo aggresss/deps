@@ -9,6 +9,7 @@ script:
   - ctest -T Test -VV
   - ctest -T MemCheck -VV
   - cat Testing/Temporary/MemoryChecker.*.log || exit 0
+  - ctest -T Coverage -VV
 
 addons:
   apt:
