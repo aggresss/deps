@@ -55,6 +55,7 @@ set(CMAKE_CXX_FLAGS_COVERAGE ${CMAKE_C_FLAGS_COVERAGE})
 # ------------------------------------------------------------------------------
 # Test
 # ------------------------------------------------------------------------------
+
 find_program(VALGRIND valgrind)
 if(VALGRIND)
   # Ctest configuration variables must be set BEFORE include(Ctest)
