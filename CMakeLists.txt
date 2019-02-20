@@ -93,6 +93,8 @@ list(REMOVE_ITEM SUB_DIRS ".git")
 list(REMOVE_ITEM SUB_DIRS "CMake")
 list(REMOVE_ITEM SUB_DIRS "build")
 list(REMOVE_ITEM SUB_DIRS "include")
+list(REMOVE_ITEM SUB_DIRS "CMakeFiles")
+list(REMOVE_ITEM SUB_DIRS "Testing")
 
 foreach(subdir ${SUB_DIRS})
   add_subdirectory(${subdir})
