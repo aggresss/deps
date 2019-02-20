@@ -4,7 +4,7 @@ language: c
 compiler: gcc
 
 script:
-  - cmake . -D BUILD_ALL=ON -D CMAKE_BUILD_TYPE:String="Coverage"
+  - cmake . -DBUILD_ALL=ON -DCMAKE_BUILD_TYPE:String="Coverage"
   - make
   - ctest -T Test -VV
   - ctest -T MemCheck -VV
