@@ -89,13 +89,8 @@ option(BUILD_ALL "Build all submodule" OFF)
 # ------------------------------------------------------------------------------
 
 SUBDIRLIST(SUB_DIRS ${PROJECT_SOURCE_DIR})
-list(REMOVE_ITEM SUB_DIRS ".git")
-list(REMOVE_ITEM SUB_DIRS "CMake")
-list(REMOVE_ITEM SUB_DIRS "build")
-list(REMOVE_ITEM SUB_DIRS "include")
-list(REMOVE_ITEM SUB_DIRS "CMakeFiles")
-list(REMOVE_ITEM SUB_DIRS "Testing")
-
 foreach(subdir ${SUB_DIRS})
-  add_subdirectory(${subdir})
+  if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/${subdir}/CMakeLists.txt)
+    add_subdirectory(${subdir})
+  endif()
 endforeach()
