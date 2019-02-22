@@ -13,7 +13,7 @@
 #define ASSERT_SUCCESS (0)
 #define ASSERT_FAIL    (-1)
 
-int main(void) {
+int main(int argc, const char * argv[]) {
     int i;
     size_t len = 0;
     char sec_key[] = "deps";
@@ -30,6 +30,6 @@ int main(void) {
     }
     printf("data: %s\nkey: %s\nHMAC-SHA1: %s\n", data, sec_key, out_hexstr);
 
-    return strcmp(expect_hmacsha1_result, out_hexstr);
+    return strncmp(expect_hmacsha1_result, out_hexstr, SHA1_DIGEST_SIZE * 2);
 }
 
