@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "md5.h"
+
 /*
  * Verification result generate from
  * http://tool.oschina.net/encrypt?type=2
