@@ -20,9 +20,9 @@
 #define SHA_BLOCKSIZE   64
 #endif
 
-void hmac_sha1(const uint8_t * k, size_t lk,
+size_t hmac_sha1(const uint8_t * k, size_t lk,
                const uint8_t * d, size_t ld,
-               uint8_t * out, size_t * t)
+               uint8_t * out, size_t t)
 {
     SHA_CTX ictx, octx;
     uint8_t isha[SHA_DIGEST_LENGTH], osha[SHA_DIGEST_LENGTH];
@@ -73,8 +73,11 @@ void hmac_sha1(const uint8_t * k, size_t lk,
     SHA1_Final(osha, &octx);
 
     /* truncate and print the results */
-    *t = SHA_DIGEST_LENGTH;
-    memcpy(out, osha, *t);
+    if (t < SHA_DIGEST_LENGTH) {
+        return -1;
+    }
+    memcpy(out, osha, SHA_DIGEST_LENGTH);
+    return SHA_DIGEST_LENGTH;
 }
 
 

@@ -22,11 +22,13 @@
  * @param d   Data
  * @param ld  Length of data in bytes
  * @param out Digest output
- * @param t   Size of digest output
+ * @param t   Output buffer length
+ *
+ * @return Size of digest output
  */
-void hmac_sha1(const uint8_t * k, size_t lk,
+size_t hmac_sha1(const uint8_t * k, size_t lk,
                const uint8_t * d, size_t ld,
-               uint8_t * out, size_t * t
+               uint8_t * out, size_t t
                );
 
 
