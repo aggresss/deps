@@ -16,8 +16,13 @@ int main(void)
     root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "number", 1.0);
     test_buff = cJSON_PrintUnformatted(root);
-    ret = strncmp(test_buff, expect_cjson_string, strlen(expect_cjson_string));
-    printf("output: %s\n", test_buff);
+    if (test_buff) {
+        ret = strncmp(test_buff, expect_cjson_string, strlen(expect_cjson_string));
+        printf("output: %s\n", test_buff);
+
+        /* Must be free buffer after print */
+        free(test_buff);
+    }
     cJSON_Delete(root);
 
     return ret;
