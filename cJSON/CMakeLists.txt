@@ -10,6 +10,7 @@ if(${SUBMODULE} OR BUILD_ALL)
   aux_source_directory(${CMAKE_CURRENT_LIST_DIR} src_${SUBMODULE}_test)
   add_executable(${SUBMODULE}_test ${src_${SUBMODULE}_test})
   target_compile_options(${SUBMODULE}_test PRIVATE -std=c99)
+  target_link_libraries(${SUBMODULE}_test m)
   # Test
   add_test(NAME ${SUBMODULE}_test COMMAND ${SUBMODULE}_test)
 endif()

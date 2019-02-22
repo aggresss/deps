@@ -8,7 +8,7 @@
  * */
 
 #define ASSERT_SUCCESS (0)
-#define ASSERT_FAIL    (-1)
+#define ASSERT_FAIL    (1)
 
 #define MD5_DIGEST_SIZE 16
 
