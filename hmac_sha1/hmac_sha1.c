@@ -20,19 +20,9 @@
 #define SHA_BLOCKSIZE   64
 #endif
 
-/**
- * Function to compute the digest
- *
- * @param k   Secret key
- * @param lk  Length of the key in bytes
- * @param d   Data
- * @param ld  Length of data in bytes
- * @param out Digest output
- * @param t   Size of digest output
- */
-void hmac_sha1(const uint8_t *k, size_t lk,
-        const uint8_t *d, size_t ld,
-        uint8_t *out, size_t t)
+void hmac_sha1(const uint8_t * k, size_t lk,
+               const uint8_t * d, size_t ld,
+               uint8_t * out, size_t * t)
 {
     SHA_CTX ictx, octx;
     uint8_t isha[SHA_DIGEST_LENGTH], osha[SHA_DIGEST_LENGTH];
@@ -83,8 +73,8 @@ void hmac_sha1(const uint8_t *k, size_t lk,
     SHA1_Final(osha, &octx);
 
     /* truncate and print the results */
-    t = t > SHA_DIGEST_LENGTH ? SHA_DIGEST_LENGTH : t;
-    memcpy(out, osha, t);
+    *t = SHA_DIGEST_LENGTH;
+    memcpy(out, osha, *t);
 }
 
 

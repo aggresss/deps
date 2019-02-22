@@ -14,12 +14,20 @@
  *
  ******************************************************************************/
 
-void hmac_sha1(const uint8_t *k,   /* secret key */
-           size_t         lk,  /* length of the key in bytes */
-           const uint8_t *d,   /* data */
-           size_t         ld,  /* length of data in bytes */
-           uint8_t*       out, /* output buffer, at least "t" bytes */
-           size_t         t);
+/**
+ * Function to compute the digest
+ *
+ * @param k   Secret key
+ * @param lk  Length of the key in bytes
+ * @param d   Data
+ * @param ld  Length of data in bytes
+ * @param out Digest output
+ * @param t   Size of digest output
+ */
+void hmac_sha1(const uint8_t * k, size_t lk,
+               const uint8_t * d, size_t ld,
+               uint8_t * out, size_t * t
+               );
 
 
 /*******************************************************************************
