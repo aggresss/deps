@@ -22,7 +22,9 @@ int main(int argc, const char * argv[]) {
     char out_hexstr[SHA1_DIGEST_SIZE * 2 + 1] = {0};
     char expect_hmacsha1_result[] = "b8cf05a896659c144efd03b6d3c00b42eb32faae";
 
+    /* hmac_sha1 workflow */
     hmac_sha1((uint8_t*)sec_key, strlen(sec_key), (uint8_t*)data, strlen(data), (uint8_t*)out, &len);
+
     if (len != SHA1_DIGEST_SIZE)
         return ASSERT_FAIL;
     for(i = 0; i< SHA1_DIGEST_SIZE; i++) {
