@@ -4,11 +4,12 @@
  * Copyright (C) 2010 Creytiv.com
  *
  */
-#include <string.h>
-#include <mem.h>
-#include <mbuf.h>
-#include <errno.h>
 
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include "mem.h"
+#include "mbuf.h"
 
 
 enum {DEFAULT_SIZE=512};
@@ -144,7 +145,7 @@ void mbuf_trim(struct mbuf *mb)
 	/* We shrink - this cannot fail */
 	err = mbuf_resize(mb, mb->end);
 	if (err) {
-		DEBUG_WARNING("trim: resize failed (%m)\n", err);
+		printf("trim: resize failed (%m)\n", err);
 	}
 }
 
@@ -333,7 +334,7 @@ int mbuf_read_mem(struct mbuf *mb, uint8_t *buf, size_t size)
 		return EINVAL;
 
 	if (size > mbuf_get_left(mb)) {
-		DEBUG_WARNING("tried to read beyond mbuf end (%u > %u)\n",
+		printf("tried to read beyond mbuf end (%u > %u)\n",
 			      size, mbuf_get_left(mb));
 		return EOVERFLOW;
 	}

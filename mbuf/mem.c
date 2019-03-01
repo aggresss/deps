@@ -4,13 +4,12 @@
  * Copyright (C) 2010 Creytiv.com
  */
 #include <ctype.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
 #include <errno.h>
+#include <pthread.h>
 
-#include "list.h"
-#include "mbuf.h"
 #include "mem.h"
 
 
@@ -93,11 +92,6 @@ void *mem_realloc(void *data, size_t size)
 
 	return (void *)(m2 + 1);
 }
-
-
-#ifndef SIZE_MAX
-#define SIZE_MAX    (~((size_t)0))
-#endif
 
 
 /**
@@ -203,22 +197,6 @@ uint32_t mem_nrefs(const void *data)
 	m = ((struct mem *)data) - 1;
 
 	return m->nrefs;
-}
-
-
-/**
- * Print memory status
- *
- * @param pf     Print handler for debug output
- * @param unused Unused parameter
- *
- * @return 0 if success, otherwise errorcode
- */
-int mem_status(struct re_printf *pf, void *unused)
-{
-	(void)pf;
-	(void)unused;
-	return 0;
 }
 
 

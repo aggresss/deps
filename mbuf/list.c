@@ -4,6 +4,8 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#include <stdio.h>
+
 #include <list.h>
 #include <mem.h>
 
@@ -87,7 +89,7 @@ void list_append(struct list *list, struct le *le, void *data)
 		return;
 
 	if (le->list) {
-		DEBUG_WARNING("append: le linked to %p\n", le->list);
+		pirntf("append: le linked to %p\n", le->list);
 		return;
 	}
 
@@ -119,7 +121,7 @@ void list_prepend(struct list *list, struct le *le, void *data)
 		return;
 
 	if (le->list) {
-		DEBUG_WARNING("prepend: le linked to %p\n", le->list);
+		pirntf("prepend: le linked to %p\n", le->list);
 		return;
 	}
 
@@ -153,7 +155,7 @@ void list_insert_before(struct list *list, struct le *le, struct le *ile,
 		return;
 
 	if (ile->list) {
-		DEBUG_WARNING("insert_before: le linked to %p\n", le->list);
+		pirntf("insert_before: le linked to %p\n", le->list);
 		return;
 	}
 
@@ -186,7 +188,7 @@ void list_insert_after(struct list *list, struct le *le, struct le *ile,
 		return;
 
 	if (ile->list) {
-		DEBUG_WARNING("insert_after: le linked to %p\n", le->list);
+		pirntf("insert_after: le linked to %p\n", le->list);
 		return;
 	}
 

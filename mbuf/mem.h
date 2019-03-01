@@ -5,17 +5,6 @@
  */
 
 
-/*
- * Any C compiler conforming to C99 or later MUST support __func__
- */
-#if __STDC_VERSION__ >= 199901L
-#define __REFUNC__ (const char *)__func__
-#else
-#define __REFUNC__ __FUNCTION__
-#endif
-
-#define MAGIC_CHECK_ERROR 203
-
 /**
  * Defines the memory destructor handler, which is called when the reference
  * of a memory object goes down to zero
@@ -42,15 +31,5 @@ void    *mem_reallocarray(void *ptr, size_t nmemb,
 void    *mem_ref(void *data);
 void    *mem_deref(void *data);
 uint32_t mem_nrefs(const void *data);
-
-void     mem_debug(void);
-void     mem_threshold_set(ssize_t n);
-struct re_printf;
-int      mem_status(struct re_printf *pf, void *unused);
 int      mem_get_stat(struct memstat *mstat);
 
-
-/* Secure memory functions */
-int  mem_seccmp(const volatile uint8_t *volatile s1,
-		const volatile uint8_t *volatile s2,
-		size_t n);
