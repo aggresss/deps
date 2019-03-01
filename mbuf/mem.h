@@ -5,6 +5,17 @@
  */
 
 
+/*
+ * Any C compiler conforming to C99 or later MUST support __func__
+ */
+#if __STDC_VERSION__ >= 199901L
+#define __REFUNC__ (const char *)__func__
+#else
+#define __REFUNC__ __FUNCTION__
+#endif
+
+#define MAGIC_CHECK_ERROR 203
+
 /**
  * Defines the memory destructor handler, which is called when the reference
  * of a memory object goes down to zero

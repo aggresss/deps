@@ -2,17 +2,13 @@
  * @file mbuf.c  Memory buffers
  *
  * Copyright (C) 2010 Creytiv.com
+ *
  */
 #include <string.h>
-#include <re_types.h>
-#include <re_fmt.h>
-#include <re_mem.h>
-#include <re_mbuf.h>
+#include <mem.h>
+#include <mbuf.h>
+#include <errno.h>
 
-
-#define DEBUG_MODULE "mbuf"
-#define DEBUG_LEVEL 4
-#include <re_dbg.h>
 
 
 enum {DEFAULT_SIZE=512};

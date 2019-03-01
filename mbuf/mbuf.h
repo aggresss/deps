@@ -6,27 +6,37 @@
 
 
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdint.h>
 
-
-#ifndef RELEASE
-#define MBUF_DEBUG 1  /**< Mbuf debugging (0 or 1) */
-#endif
+#define MBUF_DEBUG 0  /**< Mbuf debugging (0 or 1) */
 
 #if MBUF_DEBUG
+
+#define MBUF_POS_ERROR 201
+#define MBUF_END_ERROR 202
+#include <stdlib.h>
+
 /** Check that mbuf position does not exceed end */
 #define MBUF_CHECK_POS(mb)						\
 	if ((mb) && (mb)->pos > (mb)->end) {				\
-		BREAKPOINT;						\
+		exit(MBUF_POS_ERROR);						\
 	}
 /** Check that mbuf end does not exceed size */
 #define MBUF_CHECK_END(mb)						\
 	if ((mb) && (mb)->end > (mb)->size) {				\
-		BREAKPOINT;						\
+		exit(MBUF_END_ERROR);						\
 	}
 #else
 #define MBUF_CHECK_POS(mb)
 #define MBUF_CHECK_END(mb)
 #endif
+
+/** Defines a pointer-length string type */
+struct pl {
+    const char *p;  /**< Pointer to string */
+    size_t l;       /**< Length of string  */
+};
 
 /** Defines a memory buffer */
 struct mbuf {

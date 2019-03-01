@@ -4,6 +4,8 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#include <stdbool.h>
+#include <stddef.h>
 
 /** Linked-list element */
 struct le {
