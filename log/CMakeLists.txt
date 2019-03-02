@@ -5,21 +5,18 @@
 string(REGEX MATCH "[^/]+$" SUBMODULE ${CMAKE_CURRENT_LIST_DIR})
 option(${SUBMODULE} "Build ${SUBMODULE}" OFF)
 
+file(GLOB SRCS_TEST RELATIVE ${CMAKE_CURRENT_LIST_DIR} *_test.c)
+file(GLOB SRCS_COMMON RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.c)
+list(REMOVE_ITEM SRCS_COMMON ${SRCS_TEST})
+
 if(${SUBMODULE} OR BUILD_ALL)
-  # Build
-  aux_source_directory(${CMAKE_CURRENT_LIST_DIR} src_${SUBMODULE}_test)
-
-  foreach(f IN LISTS src_${SUBMODULE}_test)
-    get_filename_component(b ${f} NAME)
-    set_source_files_properties(${f} PROPERTIES
-      COMPILE_DEFINITIONS "__FILE_NAME__=\"${b}\"")
+  foreach(test_file ${SRCS_TEST})
+    get_filename_component(test_case ${test_file} NAME_WE)
+    # Build
+    add_executable(${SUBMODULE}_${test_case} ${SRCS_COMMON} ${test_file})
+    target_compile_options(${SUBMODULE}_${test_case} PRIVATE -std=c99)
+    # Test
+    add_test(NAME ${SUBMODULE}_${test_case} COMMAND ${SUBMODULE}_${test_case})
   endforeach()
-
-  add_executable(${SUBMODULE}_test ${src_${SUBMODULE}_test})
-  target_compile_definitions(${SUBMODULE}_test PRIVATE "-D__PROJECT__=\"[${SUBMODULE}_test]\"")
-  target_compile_options(${SUBMODULE}_test PRIVATE -std=c99)
-
-  # Test
-  add_test(NAME ${SUBMODULE}_test
-    COMMAND ${SUBMODULE}_test)
 endif()
+
