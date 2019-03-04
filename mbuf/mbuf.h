@@ -4,7 +4,6 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -52,7 +51,6 @@ struct mbuf {
 
 
 struct pl;
-struct re_printf;
 
 struct mbuf *mbuf_alloc(size_t size);
 struct mbuf *mbuf_alloc_ref(struct mbuf *mbr);
