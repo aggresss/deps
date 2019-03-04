@@ -145,7 +145,7 @@ void mbuf_trim(struct mbuf *mb)
 	/* We shrink - this cannot fail */
 	err = mbuf_resize(mb, mb->end);
 	if (err) {
-		printf("trim: resize failed (%m)\n", err);
+		printf("trim: resize failed (%s)\n", strerror(err));
 	}
 }
 
@@ -334,7 +334,7 @@ int mbuf_read_mem(struct mbuf *mb, uint8_t *buf, size_t size)
 		return EINVAL;
 
 	if (size > mbuf_get_left(mb)) {
-		printf("tried to read beyond mbuf end (%u > %u)\n",
+		printf("tried to read beyond mbuf end (%zu > %zu)\n",
 			      size, mbuf_get_left(mb));
 		return EOVERFLOW;
 	}
@@ -469,50 +469,6 @@ int mbuf_strdup(struct mbuf *mb, char **strp, size_t len)
 }
 
 
-static int vprintf_handler(const char *p, size_t size, void *arg)
-{
-	struct mbuf *mb = arg;
-
-	return mbuf_write_mem(mb, (const uint8_t *)p, size);
-}
-
-
-/**
- * Print a formatted variable argument list to a memory buffer
- *
- * @param mb  Memory buffer
- * @param fmt Formatted string
- * @param ap  Variable argument list
- *
- * @return 0 if success, otherwise errorcode
- */
-int mbuf_vprintf(struct mbuf *mb, const char *fmt, va_list ap)
-{
-	return re_vhprintf(fmt, ap, vprintf_handler, mb);
-}
-
-
-/**
- * Print a formatted string to a memory buffer
- *
- * @param mb  Memory buffer
- * @param fmt Formatted string
- *
- * @return 0 if success, otherwise errorcode
- */
-int mbuf_printf(struct mbuf *mb, const char *fmt, ...)
-{
-	int err = 0;
-	va_list ap;
-
-	va_start(ap, fmt);
-	err = re_vhprintf(fmt, ap, vprintf_handler, mb);
-	va_end(ap);
-
-	return err;
-}
-
-
 /**
  * Write a pointer-length string to a memory buffer, excluding a section
  *
@@ -587,19 +543,3 @@ int mbuf_fill(struct mbuf *mb, uint8_t c, size_t n)
 }
 
 
-/**
- * Debug the memory buffer
- *
- * @param pf Print handler
- * @param mb Memory buffer
- *
- * @return 0 if success, otherwise errorcode
- */
-int mbuf_debug(struct re_printf *pf, const struct mbuf *mb)
-{
-	if (!mb)
-		return 0;
-
-	return re_hprintf(pf, "buf=%p pos=%zu end=%zu size=%zu",
-			  mb->buf, mb->pos, mb->end, mb->size);
-}

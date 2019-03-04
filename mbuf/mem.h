@@ -4,6 +4,7 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#include <stdint.h>
 
 /**
  * Defines the memory destructor handler, which is called when the reference
