@@ -199,17 +199,3 @@ uint32_t mem_nrefs(const void *data)
 	return m->nrefs;
 }
 
-
-/**
- * Get memory statistics
- *
- * @param mstat Returned memory statistics
- *
- * @return 0 if success, otherwise errorcode
- */
-int mem_get_stat(struct memstat *mstat)
-{
-	if (!mstat)
-		return EINVAL;
-	return ENOSYS;
-}
