@@ -16,7 +16,7 @@ if(SRCS_TEST)
       add_executable(${SUBMODULE}_${test_case} ${SRCS_COMMON} ${test_file})
       target_compile_options(${SUBMODULE}_${test_case} PRIVATE -std=c99)
       # Test
-      add_test(NAME ${SUBMODULE}_${test_case} COMMAND ${SUBMODULE}_${test_case})
+      add_test(NAME ${SUBMODULE}_${test_case} COMMAND ${SUBMODULE}_${test_case} --num 1)
     endforeach()
   endif()
 endif()
