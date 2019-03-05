@@ -4,6 +4,9 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#ifndef ___LIST_H___
+#define ___LIST_H___
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -97,3 +100,5 @@ static inline bool list_isempty(const struct list *list)
 
 #define LIST_FOREACH(list, le)					\
 	for ((le) = list_head((list)); (le); (le) = (le)->next)
+
+#endif // ___LIST_H___

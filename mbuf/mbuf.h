@@ -4,6 +4,9 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#ifndef ___MBUF_H___
+#define ___MBUF_H___
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -176,3 +179,6 @@ static inline void mbuf_skip_to_end(struct mbuf *mb)
 {
 	mb->pos = mb->end;
 }
+
+
+#endif // ___MBUF_H___

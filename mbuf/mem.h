@@ -4,6 +4,9 @@
  * Copyright (C) 2010 Creytiv.com
  */
 
+#ifndef ___MEM_H___
+#define ___MEM_H___
+
 #include <stdint.h>
 
 /**
@@ -23,3 +26,5 @@ void    *mem_ref(void *data);
 void    *mem_deref(void *data);
 uint32_t mem_nrefs(const void *data);
 
+
+#endif // ___MEM_H___
