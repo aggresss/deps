@@ -51,4 +51,11 @@ void Log(int nLevel, char * pFmt, ...);
 #define LogError(fmt,...) \
         Log(LOG_LEVEL_ERROR, "[E]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
 
+#define log_trace(args...) LogTrace(args)
+#define log_debug(args...) LogDebug(args)
+#define log_info(args...) LogInfo(args)
+#define log_warn(args...) LogWarn(args)
+#define log_error(args...) LogError(args)
+
+
 #endif
