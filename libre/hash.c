@@ -5,6 +5,10 @@
  */
 
 #include <errno.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mem.h"
 #include "mbuf.h"
@@ -220,6 +224,7 @@ uint32_t hash_valid_size(uint32_t size)
 }
 
 
+/******************************************************************************/
 
 
 /**
@@ -577,6 +582,6 @@ uint32_t hash_fast(const char *k, size_t len)
  */
 uint32_t hash_fast_str(const char *str)
 {
-    return hash_fast(str, str_len(str));
+    return hash_fast(str, strlen(str));
 }
 
