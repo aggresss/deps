@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "mem.h"
+#include "mbuf.h"
 #include "list.h"
 #include "hash.h"
 
@@ -64,6 +65,7 @@ static void test_hash_valid_size(void)
 
 }
 
+
 /* reference: http://www.kjson.com/encrypt/hash/?fm=map */
 /* foobar => f952fde7 */
 /* FooBar => a56c3788 */
@@ -94,15 +96,14 @@ static void test_hash_joaat_str(void)
     char test_str_2[] = "foobar";
     uint32_t calc_val_1 = hash_joaat_str(test_str_1);
     assert(calc_val_1 == 0xa56c3788);
-
     uint32_t calc_val_2 = hash_joaat_str(test_str_2);
     assert(calc_val_2 == 0xf952fde7);
 }
 
 static void test_hash_joaat_str_ci(void)
 {
-    char * test_str_1 = "FooBar";
-    char * test_str_2 = "foobar";
+    char test_str_1[] = "FooBar";
+    char test_str_2[] = "foobar";
     uint32_t calc_val_1 = hash_joaat_str_ci(test_str_1);
     uint32_t calc_val_2 = hash_joaat_str_ci(test_str_2);
     assert(calc_val_1 == calc_val_2);
@@ -110,17 +111,37 @@ static void test_hash_joaat_str_ci(void)
 
 static void test_hash_joaat_pl(void)
 {
+    char test_str_1[] = "FooBar";
+    struct pl test_pl_1 = {test_str_1, sizeof(test_str_1) - 1};
+    char test_str_2[] = "foobar";
+    struct pl test_pl_2 = {test_str_2, sizeof(test_str_2) - 1};
+    uint32_t calc_val_1 = hash_joaat_pl(&test_pl_1);
+    assert(calc_val_1 == 0xa56c3788);
+    uint32_t calc_val_2 = hash_joaat_pl(&test_pl_2);
+    assert(calc_val_2 == 0xf952fde7);
 
 }
 
 static void test_hash_joaat_pl_ci(void)
 {
-
+    char test_str_1[] = "FooBar";
+    struct pl test_pl_1 = {test_str_1, sizeof(test_str_1) - 1};
+    char test_str_2[] = "foobar";
+    struct pl test_pl_2 = {test_str_2, sizeof(test_str_2) - 1};
+    uint32_t calc_val_1 = hash_joaat_pl_ci(&test_pl_1);
+    uint32_t calc_val_2 = hash_joaat_pl_ci(&test_pl_2);
+    assert(calc_val_1 == calc_val_2);
 }
 
 static void test_hash_fast(void)
 {
-
+    char test_str_1[] = "FooBar";
+    char test_str_2[] = "foobar";
+    uint32_t calc_val_1 = hash_fast(test_str_1, sizeof(test_str_1) - 1);
+    printf("%x\n", calc_val_1);
+    assert(calc_val_1 == 0xa56c3788);
+    uint32_t calc_val_2 = hash_fast(test_str_2, sizeof(test_str_2) - 1);
+    assert(calc_val_2 == 0xf952fde7);
 }
 
 static void test_hash_fast_str(void)
