@@ -20,8 +20,7 @@ static void test_hash_alloc(void)
     struct hash * hash_test;
     /* bucket size need 2^n */
     uint32_t test_size = 16;
-    int ret = hash_alloc(&hash_test, test_size);
-    assert(ret == 0);
+    assert(hash_alloc(&hash_test, test_size) == 0);
 
     mem_deref(hash_test);
 }
