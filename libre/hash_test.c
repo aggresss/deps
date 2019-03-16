@@ -17,7 +17,13 @@
 
 static void test_hash_alloc(void)
 {
+    struct hash * hash_test;
+    /* bucket size need 2^n */
+    uint32_t test_size = 16;
+    int ret = hash_alloc(&hash_test, test_size);
+    assert(ret == 0);
 
+    mem_deref(hash_test);
 }
 
 static void test_hash_append(void)
@@ -133,20 +139,26 @@ static void test_hash_joaat_pl_ci(void)
     assert(calc_val_1 == calc_val_2);
 }
 
+/* http://burtleburtle.net/bob/hash/doobs.html */
+
 static void test_hash_fast(void)
 {
     char test_str_1[] = "FooBar";
     char test_str_2[] = "foobar";
     uint32_t calc_val_1 = hash_fast(test_str_1, sizeof(test_str_1) - 1);
-    printf("%x\n", calc_val_1);
-    assert(calc_val_1 == 0xa56c3788);
+    assert(calc_val_1 == 0x36631544);
     uint32_t calc_val_2 = hash_fast(test_str_2, sizeof(test_str_2) - 1);
-    assert(calc_val_2 == 0xf952fde7);
+    assert(calc_val_2 == 0x968e37e9);
 }
 
 static void test_hash_fast_str(void)
 {
-
+    char test_str_1[] = "FooBar";
+    char test_str_2[] = "foobar";
+    uint32_t calc_val_1 = hash_fast_str(test_str_1);
+    assert(calc_val_1 == 0x36631544);
+    uint32_t calc_val_2 = hash_fast_str(test_str_2);
+    assert(calc_val_2 == 0x968e37e9);
 }
 
 
