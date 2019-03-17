@@ -13,7 +13,6 @@
   puts("... \x1b[33m" # fn "\x1b[0m"); \
   test_##fn();
 
-// inline function test
 
 static void test_hash_alloc(void)
 {
@@ -27,7 +26,18 @@ static void test_hash_alloc(void)
 
 static void test_hash_append(void)
 {
+    // setup
+    struct hash * hash_test;
+    hash_alloc(&hash_test, 16);
+    struct le test_le1 = LE_INIT;
+    char le_data[] = "foobar";
+    hash_append(hash_test, hash_joaat_str(le_data), &test_le1, le_data);
 
+    // assertion
+    assert(strcmp(le_data, test_le1.data) == 0);
+
+    // teardown
+    mem_deref(hash_test);
 }
 
 static void test_hash_unlink(void)
@@ -71,9 +81,11 @@ static void test_hash_valid_size(void)
 }
 
 
-/* reference: http://www.kjson.com/encrypt/hash/?fm=map */
-/* foobar => f952fde7 */
-/* FooBar => a56c3788 */
+/*
+ * reference: http://www.kjson.com/encrypt/hash/?fm=map
+ * foobar => f952fde7
+ * FooBar => a56c3788
+ */
 
 static void test_hash_joaat(void)
 {
