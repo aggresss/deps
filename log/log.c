@@ -20,7 +20,7 @@ void Log(int nLevel, char * pFmt, ...)
     if (nLevel >= nLogLevel) {
         va_list ap;
         va_start(ap, pFmt);
-#ifdef LOG_WITH_TIME
+#if LOG_WITH_TIME
 #include <time.h>
 #include <string.h>
         char time_buf[64] = { 0 };
@@ -35,7 +35,7 @@ void Log(int nLevel, char * pFmt, ...)
 #endif /* LOG_WITH_TIME */
         va_end(ap);
         if (logFunc == NULL) {
-#ifdef LOG_WITH_COLOR
+#if LOG_WITH_COLOR
             switch (nLevel) {
                 case LOG_LEVEL_TRACE:
                     printf(L_BLUE "%s" NONE, log_buf);
@@ -56,7 +56,7 @@ void Log(int nLevel, char * pFmt, ...)
                     break;
             }
 #else
-    printf("%s", log_buf);
+            printf("%s", log_buf);
 #endif /* LOG_WITH_COLOR */
         } else {
             logFunc(nLevel, log_buf);
