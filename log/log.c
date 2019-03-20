@@ -32,10 +32,32 @@ void Log(int nLevel, char * pFmt, ...)
         vsnprintf(log_buf + time_len, (MAX_LOG_LENGTH - time_len), pFmt, ap);
 #else
         vsnprintf(log_buf, MAX_LOG_LENGTH, pFmt, ap);
-#endif
+#endif /* LOG_WITH_TIME */
         va_end(ap);
         if (logFunc == NULL) {
-            printf("%s", log_buf);
+#ifdef LOG_WITH_COLOR
+            switch (nLevel) {
+                case LOG_LEVEL_TRACE:
+                    printf(L_BLUE "%s" NONE, log_buf);
+                    break;
+                case LOG_LEVEL_DEBUG:
+                    printf(L_CYAN "%s" NONE, log_buf);
+                    break;
+                case LOG_LEVEL_INFO:
+                    printf(L_GREEN "%s" NONE, log_buf);
+                    break;
+                case LOG_LEVEL_WARN:
+                    printf(L_YELLOW "%s" NONE, log_buf);
+                    break;
+                case LOG_LEVEL_ERROR:
+                    printf(L_RED "%s" NONE, log_buf);
+                    break;
+                default:
+                    break;
+            }
+#else
+    printf("%s", log_buf);
+#endif /* LOG_WITH_COLOR */
         } else {
             logFunc(nLevel, log_buf);
         }
