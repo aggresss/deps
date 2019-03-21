@@ -41,8 +41,7 @@ void Log(int nLevel, char * pFmt, ...);
 #define BLUE            "\e[0;34m"
 #define MAGENTA         "\e[0;35m"
 #define CYAN            "\e[0;36m"
-#define GRAY            "\e[0;37m"
-#define WHITE           "\e[1;37m"
+#define WHITE           "\e[0;37m"
 
 #define L_BLACK         "\e[1;30m"
 #define L_RED           "\e[1;31m"
@@ -51,6 +50,7 @@ void Log(int nLevel, char * pFmt, ...);
 #define L_BLUE          "\e[1;34m"
 #define L_MAGENTA       "\e[1;35m"
 #define L_CYAN          "\e[1;36m"
+#define L_WHITE         "\e[1;37m"
 
 #define BOLD            "\e[1m"
 #define UNDERLINE       "\e[4m"
