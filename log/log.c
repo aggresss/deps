@@ -26,7 +26,7 @@ void Log(int nLevel, char * pFmt, ...)
         char time_buf[64] = { 0 };
         time_t t = time(NULL);
         struct tm *tm_now = localtime(&t);
-        strftime(time_buf, 64, "[%Y-%m-%d %H:%M:%S %Z]", tm_now);
+        strftime(time_buf, 64, "[%Y-%m-%d %H:%M:%S %Z%z]", tm_now);
         int time_len = strlen(time_buf);
         strncpy(log_buf, time_buf, strlen(time_buf));
         vsnprintf(log_buf + time_len, (MAX_LOG_LENGTH - time_len), pFmt, ap);
