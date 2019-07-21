@@ -268,11 +268,13 @@ flag_parse(int argc, const char **args, const char *version) {
 exit:
   if(set) {
     free(set);
+    set = NULL;
   }
   exit(rc);
 ret:
   if(set) {
     free(set);
+    set = NULL;
   }
 }
 
