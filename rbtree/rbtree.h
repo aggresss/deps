@@ -26,7 +26,7 @@ typedef struct {
 } Tree;
 
 
-Tree* TreeInitialize(int(*compare)(void*, void*, int));
+Tree* TreeInit(int(*compare)(void*, void*));
 
 void TreeFree(Tree* aTree);
 
@@ -34,13 +34,9 @@ void* TreeAdd(Tree* aTree, void* content, size_t size);
 
 void* TreeRemove(Tree* aTree, void* content);
 
-Node* TreeFind(Tree* aTree, void* key);
+Node* TreeFind(Tree* aTree, void* content);
 
-Node* TreeNextElement(Tree* aTree, Node* curnode);
-
-int TreeIntCompare(void* a, void* b, int);
-int TreePtrCompare(void* a, void* b, int);
-int TreeStringCompare(void* a, void* b, int);
+Node* TreeSuccessor(Tree* aTree, Node* curnode);
 
 #endif
 
