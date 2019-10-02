@@ -7,21 +7,21 @@
 #define LEFT 0
 #define RIGHT 1
 #if !defined(max)
-#define max(a, b) (a > b) ? a : b;
+#define max(a,b) (((a)>(b))?(a):(b))
 #endif
 
 
 static int isRed(Node* aNode);
 static int isBlack(Node* aNode);
 
-static void TreeRotate(Tree* aTree, Node* curnode, int direction, int index);
+static void TreeRotate(Tree* aTree, Node* curnode, int direction);
 static Node* TreeBAASub(Tree* aTree, Node* curnode, int which, int index);
 static void TreeBalanceAfterAdd(Tree* aTree, Node* curnode, int index);
 static void* TreeAddByIndex(Tree* aTree, void* content, size_t size, int index);
 static Node* TreeFindIndex1(Tree* aTree, void* key, int index, int value);
 static Node* TreeFindContentIndex(Tree* aTree, void* key, int index);
 static Node* TreeMinimum(Node* curnode);
-static Node* TreeSuccessor(Node* curnode);
+
 static Node* TreeNextElementIndex(Tree* aTree, Node* curnode, int index);
 static Node* TreeBARSub(Tree* aTree, Node* curnode, int which, int index);
 static void TreeBalanceAfterRemove(Tree* aTree, Node* curnode, int index);
@@ -41,7 +41,7 @@ static int isBlack(Node* aNode)
     return (aNode == NULL) || (aNode->red == 0);
 }
 
-void TreeRotate(Tree* aTree, Node* curnode, int direction)
+static void TreeRotate(Tree* aTree, Node* curnode, int direction)
 {
     Node* other = curnode->child[!direction];
 
@@ -59,6 +59,15 @@ void TreeRotate(Tree* aTree, Node* curnode, int direction)
 
     other->child[direction] = curnode;
     curnode->parent = other;
+}
+
+static Node* TreeMinimum(Node* curnode)
+{
+    if (curnode)
+        while (curnode->child[LEFT]) {
+            curnode = curnode->child[LEFT];
+        }
+    return curnode;
 }
 
 

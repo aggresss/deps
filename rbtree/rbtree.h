@@ -36,7 +36,7 @@ void* TreeRemove(Tree* aTree, void* content);
 
 Node* TreeFind(Tree* aTree, void* content);
 
-Node* TreeSuccessor(Tree* aTree, Node* curnode);
+Node* TreeNextElement(Tree* aTree, Node* curnode);
 
 #endif
 
