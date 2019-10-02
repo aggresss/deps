@@ -41,6 +41,26 @@ static int isBlack(Node* aNode)
     return (aNode == NULL) || (aNode->red == 0);
 }
 
+void TreeRotate(Tree* aTree, Node* curnode, int direction)
+{
+    Node* other = curnode->child[!direction];
+
+    curnode->child[!direction] = other->child[direction];
+    if (other->child[direction] != NULL)
+        other->child[direction]->parent = curnode;
+    other->parent = curnode->parent;
+    if (curnode->parent == NULL) {
+        aTree->root = other;
+    } else if (curnode == curnode->parent->child[direction]) {
+        curnode->parent->child[direction] = other;
+    } else {
+        curnode->parent->child[!direction] = other;
+    }
+
+    other->child[direction] = curnode;
+    curnode->parent = other;
+}
+
 
 Tree* TreeInit(int(*compare)(void*, void*, int))
 {
