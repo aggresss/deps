@@ -1,10 +1,10 @@
 #if !defined(TREE_H)
 #define TREE_H
 
-#include <stdlib.h> /* for size_t definition */
+#include <stdlib.h>
 
 /**
- * Structure to hold all data for one list element
+ * Structure to hold all data for one tree element
  */
 typedef struct NodeStruct {
     struct NodeStruct *parent;   /**< pointer to parent tree node, in case we need it */
@@ -38,5 +38,5 @@ Node* TreeFind(Tree* aTree, void* content);
 
 Node* TreeNextElement(Tree* aTree, Node* curnode);
 
-#endif
+#endif  /* TREE_H */
 
