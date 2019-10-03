@@ -14,7 +14,6 @@ typedef struct NodeStruct {
     unsigned int red : 1;
 } Node;
 
-
 /**
  * Structure to hold all data for one tree
  */
@@ -25,16 +24,15 @@ typedef struct {
     size_t size;                    /**< heap storage used */
 } Tree;
 
-
 Tree* TreeInit(int(*compare)(void*, void*));
 
 void TreeFree(Tree* aTree);
 
+Node* TreeFind(Tree* aTree, void* content);
+
 void* TreeAdd(Tree* aTree, void* content, size_t size);
 
 void* TreeRemove(Tree* aTree, void* content);
-
-Node* TreeFind(Tree* aTree, void* content);
 
 Node* TreeNextElement(Tree* aTree, Node* curnode);
 

@@ -6,6 +6,7 @@
 
 #define LEFT 0
 #define RIGHT 1
+
 #if !defined(max)
 #define max(a,b) (((a)>(b))?(a):(b))
 #endif
@@ -15,26 +16,13 @@ static int isRed(Node* aNode);
 static int isBlack(Node* aNode);
 
 static void TreeRotate(Tree* aTree, Node* curnode, int direction);
-static Node* TreeBAASub(Tree* aTree, Node* curnode, int which, int index);
-static void TreeBalanceAfterAdd(Tree* aTree, Node* curnode, int index);
-static void* TreeAddByIndex(Tree* aTree, void* content, size_t size, int index);
-static Node* TreeFindIndex1(Tree* aTree, void* key, int index, int value);
-static Node* TreeFindContentIndex(Tree* aTree, void* key, int index);
 static Node* TreeMinimum(Node* curnode);
-
-static Node* TreeNextElementIndex(Tree* aTree, Node* curnode, int index);
-static Node* TreeBARSub(Tree* aTree, Node* curnode, int which, int index);
-static void TreeBalanceAfterRemove(Tree* aTree, Node* curnode, int index);
-static void* TreeRemoveIndex(Tree* aTree, void* content, int index);
-
-
-
+static Node* TreeSuccessor(Node* curnode);
 
 static int isRed(Node* aNode)
 {
     return (aNode != NULL) && (aNode->red);
 }
-
 
 static int isBlack(Node* aNode)
 {
@@ -70,6 +58,22 @@ static Node* TreeMinimum(Node* curnode)
     return curnode;
 }
 
+static Node* TreeSuccessor(Node* curnode)
+{
+    if (curnode->child[RIGHT])
+        curnode = TreeMinimum(curnode->child[RIGHT]);
+    else
+    {
+        Node* curparent = curnode->parent;
+        while (curparent && curnode == curparent->child[RIGHT])
+        {
+            curnode = curparent;
+            curparent = curparent->parent;
+        }
+        curnode = curparent;
+    }
+    return curnode;
+}
 
 Tree* TreeInit(int(*compare)(void*, void*, int))
 {
@@ -85,4 +89,78 @@ void TreeFree(Tree* aTree)
     }
 }
 
+Node* TreeFind(Tree* aTree, void* content)
+{
+    int result = 0;
+    Node* curnode = aTree->root;
+
+    while (curnode)
+    {
+        result = aTree->compare(curnode->content, content);
+        if (result == 0) {
+            break;
+        } else {
+            curnode = curnode->child[result > 0];
+        }
+    }
+    return curnode;
+}
+
+void* TreeRemoveNode(Tree* aTree, Node* curnode)
+{
+    Node* redundant = curnode;
+    Node* curchild = NULL;
+    size_t size = curnode->size;
+    void* content = curnode->content;
+
+    /* if the node to remove has 0 or 1 children, it can be removed without involving another node */
+    if (curnode->child[LEFT] && curnode->child[RIGHT]) /* 2 children */
+        redundant = TreeSuccessor(curnode);     /* now redundant must have at most one child */
+
+    curchild = redundant->child[(redundant->child[LEFT] != NULL) ? LEFT : RIGHT];
+    if (curchild) /* we could have no children at all */
+        curchild->parent = redundant->parent;
+
+    if (redundant->parent == NULL)
+        aTree->root = curchild;
+    else
+    {
+        if (redundant == redundant->parent->child[LEFT])
+            redundant->parent->child[LEFT] = curchild;
+        else
+            redundant->parent->child[RIGHT] = curchild;
+    }
+
+    if (redundant != curnode)
+    {
+        curnode->content = redundant->content;
+        curnode->size = redundant->size;
+    }
+
+    if (isBlack(redundant))
+    {
+        if (curchild == NULL)
+        {
+            if (redundant->parent)
+            {
+                Node temp;
+                memset(&temp, '\0', sizeof(Node));
+                temp.parent = redundant->parent;
+                temp.red = 0;
+                TreeBalanceAfterRemove(aTree, &temp, index);
+            }
+        }
+        else
+            TreeBalanceAfterRemove(aTree, curchild, index);
+    }
+
+    free(redundant);
+
+    if (index == 0)
+    {
+        aTree->size -= size;
+        --(aTree->count);
+    }
+    return content;
+}
 
