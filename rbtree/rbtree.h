@@ -20,7 +20,6 @@ typedef struct NodeStruct {
 typedef struct {
     Node *root;                     /**< root node pointer */
     int (*compare)(void*, void*);   /**< comparison function */
-    int allow_duplicates;           /**< switch to allow duplicate entries */
     int count;                      /**< count of items */
     size_t size;                    /**< heap storage used */
 } Tree;
