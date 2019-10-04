@@ -19,7 +19,10 @@ static Node* TreeMinimum(Node* curnode);
 static Node* TreeSuccessor(Node* curnode);
 static void TreeBalanceAfterAdd(Tree* aTree, Node* curnode);
 static Node* TreeBAASub(Tree* aTree, Node* curnode, int which);
+static void TreeBalanceAfterRemove(Tree* aTree, Node* curnode);
+static Node* TreeBARSub(Tree* aTree, Node* curnode, int which);
 static void* TreeRemoveNode(Tree* aTree, Node* curnode);
+
 
 static int isRed(Node* aNode)
 {
@@ -108,7 +111,7 @@ static Node* TreeBAASub(Tree* aTree, Node* curnode, int which)
     return curnode;
 }
 
-void TreeBalanceAfterRemove(Tree* aTree, Node* curnode)
+static void TreeBalanceAfterRemove(Tree* aTree, Node* curnode)
 {
     while (curnode != aTree->root && isBlack(curnode)) {
         /* curnode->content == NULL must equal curnode == NULL */
@@ -121,7 +124,7 @@ void TreeBalanceAfterRemove(Tree* aTree, Node* curnode)
 }
 
 /* Tree balance after remove substantial */
-static Node* TreeBARSub(Tree* aTree, Node* curnode, int which, int index)
+static Node* TreeBARSub(Tree* aTree, Node* curnode, int which)
 {
     Node* sibling = curnode->parent->child[which];
 
@@ -280,11 +283,25 @@ void* TreeAdd(Tree* aTree, void* content, size_t size)
     }
     newel->content = content;
     newel->size = size;
-    TreeBalanceAfterAdd(aTree, newel, index);
+    TreeBalanceAfterAdd(aTree, newel);
 
 exit:
     return rc;
 }
 
+/**
+ * Remove an item from a tree
+ * @param aTree the list to which the item is to be added
+ * @param curnode the list item content itself
+ */
+void* TreeRemove(Tree* aTree, void* content)
+{
+    Node* curnode = TreeFind(aTree, content);
 
+    if (curnode == NULL) {
+        return NULL;
+    }
+
+    return TreeRemoveNodeIndex(aTree, curnode, index);
+}
 
