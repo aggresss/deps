@@ -75,6 +75,18 @@ static Node* TreeSuccessor(Node* curnode)
     return curnode;
 }
 
+static void TreeBalanceAfterAdd(Tree* aTree, Node* curnode)
+{
+    while (curnode && isRed(curnode->parent) && curnode->parent->parent) {
+        if (curnode->parent == curnode->parent->parent->child[LEFT]) {
+            curnode = TreeBAASub(aTree, curnode, RIGHT);
+        } else {
+            curnode = TreeBAASub(aTree, curnode, LEFT);
+        }
+    }
+    aTree->root->red = 0;
+}
+
 Tree* TreeInit(int(*compare)(void*, void*, int))
 {
     Tree* newt = malloc(sizeof(Tree));
@@ -105,6 +117,68 @@ Node* TreeFind(Tree* aTree, void* content)
     }
     return curnode;
 }
+
+/**
+ * Add an item to a tree
+ * @param aTree the list to which the item is to be added
+ * @param content the list item content itself
+ * @param size the size of the element
+ */
+void* TreeAdd(Tree* aTree, void* content, size_t size)
+{
+    Node* curparent = NULL;
+    Node* curnode = aTree->root;
+    Node* newel = NULL;
+    int left = 0;
+    int result = 1;
+    void* rc = NULL;
+
+    while (curnode)
+    {
+        result = aTree->compare(curnode->content, content);
+        left = (result > 0);
+        if (result == 0) {
+            break;
+        } else {
+            curparent = curnode;
+            curnode = curnode->child[left];
+        }
+    }
+
+    if (result == 0) {
+        if (aTree->allow_duplicates) {
+
+        } else {
+            newel = curnode;
+            rc = newel->content;
+            if (index == 0)
+                aTree->size += (size - curnode->size);
+        }
+    } else {
+        newel = malloc(sizeof(Node));
+        memset(newel, '\0', sizeof(Node));
+        if (curparent) {
+            curparent->child[left] = newel;
+        } else {
+            aTree->root = newel;
+        }
+        newel->parent = curparent;
+        newel->red = 1;
+        if (index == 0) {
+            ++(aTree->count);
+            aTree->size += size;
+        }
+    }
+    newel->content = content;
+    newel->size = size;
+    TreeBalanceAfterAdd(aTree, newel, index);
+exit:
+    return rc;
+}
+
+
+
+
 
 void* TreeRemoveNode(Tree* aTree, Node* curnode)
 {
