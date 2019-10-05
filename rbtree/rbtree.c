@@ -215,6 +215,7 @@ Tree* TreeInit(int (*compare)(void*, void*))
 {
     Tree* newt = malloc(sizeof(Tree));
     memset(newt, '\0', sizeof(Tree));
+    newt->compare = compare;
     return newt;
 }
 
