@@ -133,7 +133,7 @@ static Node* TreeBARSub(Tree* aTree, Node* curnode, int which)
     if (isRed(sibling)) {
         sibling->red = 0;
         curnode->parent->red = 1;
-        TreeRotate(aTree, curnode->parent, !which, index);
+        TreeRotate(aTree, curnode->parent, !which);
         sibling = curnode->parent->child[which];
     }
     if (!sibling) {
@@ -205,14 +205,13 @@ static void* TreeRemoveNode(Tree* aTree, Node* curnode)
 
     free(redundant);
 
-    if (index == 0) {
-        aTree->size -= size;
-        --(aTree->count);
-    }
+    aTree->size -= size;
+    --(aTree->count);
+
     return content;
 }
 
-Tree* TreeInit(int (*compare)(void*, void*, int))
+Tree* TreeInit(int (*compare)(void*, void*))
 {
     Tree* newt = malloc(sizeof(Tree));
     memset(newt, '\0', sizeof(Tree));
@@ -239,6 +238,17 @@ Node* TreeFind(Tree* aTree, void* content)
             curnode = curnode->child[result > 0];
         }
     }
+    return curnode;
+}
+
+Node* TreeNextElement(Tree* aTree, Node* curnode)
+{
+    if (curnode == NULL) {
+        curnode = TreeMinimum(aTree->root);
+    } else {
+        curnode = TreeSuccessor(curnode);
+    }
+
     return curnode;
 }
 
@@ -280,10 +290,9 @@ void* TreeAdd(Tree* aTree, void* content, size_t size)
         }
         newel->parent = curparent;
         newel->red = 1;
-        if (index == 0) {
-            ++(aTree->count);
-            aTree->size += size;
-        }
+
+        ++(aTree->count);
+        aTree->size += size;
     }
     newel->content = content;
     newel->size = size;
@@ -308,4 +317,25 @@ void* TreeRemove(Tree* aTree, void* content)
 
     return TreeRemoveNode(aTree, curnode);
 }
+
+int TreeIntCompare(void* a, void* b)
+{
+    int i = *((int*)a);
+    int j = *((int*)b);
+
+    return (i > j) ? -1 : (i == j) ? 0 : 1;
+}
+
+
+int TreePtrCompare(void* a, void* b)
+{
+    return (a > b) ? -1 : (a == b) ? 0 : 1;
+}
+
+
+int TreeStringCompare(void* a, void* b)
+{
+    return strcmp((char*)a, (char*)b);
+}
+
 

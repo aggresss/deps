@@ -36,5 +36,9 @@ void* TreeAdd(Tree* aTree, void* content, size_t size);
 
 void* TreeRemove(Tree* aTree, void* content);
 
+int TreeIntCompare(void* a, void* b);
+int TreePtrCompare(void* a, void* b);
+int TreeStringCompare(void* a, void* b);
+
 #endif  /* TREE_H */
 
