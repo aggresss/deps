@@ -32,7 +32,7 @@ Node* TreeFind(Tree* aTree, void* content);
 
 Node* TreeNextElement(Tree* aTree, Node* curnode);
 
-void* TreeAdd(Tree* aTree, void* content, size_t size);
+Node* TreeAdd(Tree* aTree, void* content, size_t size);
 
 void* TreeRemove(Tree* aTree, void* content);
 

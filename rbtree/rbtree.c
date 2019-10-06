@@ -259,14 +259,14 @@ Node* TreeNextElement(Tree* aTree, Node* curnode)
  * @param content the list item content itself
  * @param size the size of the element
  */
-void* TreeAdd(Tree* aTree, void* content, size_t size)
+Node* TreeAdd(Tree* aTree, void* content, size_t size)
 {
     Node* curparent = NULL;
     Node* curnode = aTree->root;
     Node* newel = NULL;
     int left = 0;
     int result = 1;
-    void* rc = NULL;
+    Node* rc = NULL;
 
     while (curnode) {
         result = aTree->compare(curnode->content, content);
@@ -298,7 +298,7 @@ void* TreeAdd(Tree* aTree, void* content, size_t size)
     newel->content = content;
     newel->size = size;
     TreeBalanceAfterAdd(aTree, newel);
-
+    rc = newel;
 exit:
     return rc;
 }
@@ -338,5 +338,4 @@ int TreeStringCompare(void* a, void* b)
 {
     return strcmp((char*)a, (char*)b);
 }
-
 
