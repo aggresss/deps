@@ -2,50 +2,63 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
-
-int traverse(Tree *t, int lookfor)
+void traverse(Tree *t)
 {
     Node* curnode = NULL;
-    int rc = 0;
 
     printf("Traversing\n");
     curnode = TreeNextElement(t, curnode);
-    /* printf("content int %d\n", *(int*)(curnode->content)); */
+    printf("\tcontent int %d\n", *(int*)(curnode->content));
     while (curnode) {
-        Node* prevnode = curnode;
-
         curnode = TreeNextElement(t, curnode);
-        /* if (curnode)
-         printf("content int %d\n", *(int*)(curnode->content)); */
-        if (prevnode && curnode && (*(int*) (curnode->content) < *(int*) (prevnode->content))) {
-            printf("out of order %d < %d\n", *(int*) (curnode->content), *(int*) (prevnode->content));
+        if (curnode) {
+            printf("\tcontent int %d\n", *(int*)(curnode->content));
         }
-        if (curnode && (lookfor == *(int*) (curnode->content)))
-            printf("missing item %d actually found\n", lookfor);
     }
-    printf("End traverse %d\n", rc);
-    return rc;
+    printf("End traverse\n");
 }
 
 int main(int argc, const char * argv[])
 {
     int rc = 0;
     int *ip = NULL;
+    int i = 0;
+    Node *node_l = NULL;
     Tree* t = TreeInit(TreeIntCompare);
 
     ip = malloc(sizeof(int));
-    *ip = 2;
+    *ip = 200;
     TreeAdd(t, (void*) ip, sizeof(int));
+
     ip = malloc(sizeof(int));
-    *ip = 3;
+    *ip = 300;
     TreeAdd(t, (void*) ip, sizeof(int));
 
-    traverse(t, 2);
+    ip = malloc(sizeof(int));
+    *ip = 400;
+    TreeAdd(t, (void*) ip, sizeof(int));
 
-    traverse(t, 3);
+    ip = malloc(sizeof(int));
+    *ip = 500;
+    TreeAdd(t, (void*) ip, sizeof(int));
 
-    traverse(t, 4);
+    ip = malloc(sizeof(int));
+    *ip = 100;
+    TreeAdd(t, (void*) ip, sizeof(int));
+
+    i = 400;
+    TreeRemove(t, &i);
+
+    i = 300;
+    node_l = TreeFind(t, &i);
+    if (node_l) {
+        printf("Find node %d\n", *(int *)node_l->content);
+    }
+
+    traverse(t);
+
+    return rc;
+
 }
 
