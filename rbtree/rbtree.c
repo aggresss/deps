@@ -253,12 +253,6 @@ Node* TreeNextElement(Tree* aTree, Node* curnode)
     return curnode;
 }
 
-/**
- * Add an item to a tree
- * @param aTree the list to which the item is to be added
- * @param content the list item content itself
- * @param size the size of the element
- */
 Node* TreeAdd(Tree* aTree, void* content, size_t size)
 {
     Node* curparent = NULL;
@@ -303,11 +297,6 @@ exit:
     return rc;
 }
 
-/**
- * Remove an item from a tree
- * @param aTree the list to which the item is to be added
- * @param curnode the list item content itself
- */
 void* TreeRemove(Tree* aTree, void* content)
 {
     Node* curnode = TreeFind(aTree, content);
