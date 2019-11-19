@@ -14,12 +14,9 @@ static const char *get_filename(const char *p)
     char ch = '/';
 #endif
     const char *q = strrchr(p, ch);
-    if(q == NULL)
-    {
+    if(q == NULL) {
         q = p;
-    }
-    else
-    {
+    } else {
         q++;
     }
     return q;
