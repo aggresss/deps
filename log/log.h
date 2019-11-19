@@ -9,11 +9,7 @@ typedef void (*LogFunc)(int nLevel, char * pLog);
 
 void SetLogLevel(int nLevel);
 void SetLogCallback(LogFunc f);
-void Log(int nLevel, char * pFmt, ...);
-
-#define _s_l_(x) #x
-#define _str_line_(x) _s_l_(x)
-#define __STR_LINE__ _str_line_(__LINE__)
+void LogGenerate(const char *file, const int line, const char *func, const int nLevel, const char * pFmt, ...);
 
 #define LOG_LEVEL_TRACE 1
 #define LOG_LEVEL_DEBUG 2
@@ -62,34 +58,21 @@ void Log(int nLevel, char * pFmt, ...);
 
 #endif /* LOG_WITH_COLOR */
 
-
-#ifndef __PROJECT__
-#define __PROJECT__
-#endif
-
-#ifndef __FILE_NAME__
-#define __FILE_NAME__
-#define __FILE_LINE__
-#else
-#define __FILE_LINE__ ":" __STR_LINE__
-#endif
-
 #define LogTrace(fmt,...) \
-        Log(LOG_LEVEL_TRACE, "[T]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
+        LogGenerate(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_TRACE, "[T]" fmt "\n", ##__VA_ARGS__)
 #define LogDebug(fmt,...) \
-        Log(LOG_LEVEL_DEBUG, "[D]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
+        LogGenerate(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_DEBUG, "[D]" fmt "\n", ##__VA_ARGS__)
 #define LogInfo(fmt,...) \
-        Log(LOG_LEVEL_INFO,  "[I]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
+        LogGenerate(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_INFO, "[I]" fmt "\n", ##__VA_ARGS__)
 #define LogWarn(fmt,...) \
-        Log(LOG_LEVEL_WARN,  "[W]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
+        LogGenerate(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_WARN, "[W]" fmt "\n", ##__VA_ARGS__)
 #define LogError(fmt,...) \
-        Log(LOG_LEVEL_ERROR, "[E]" __PROJECT__ __FILE_NAME__ __FILE_LINE__ " " fmt "\n", ##__VA_ARGS__)
+        LogGenerate(__FILE__, __LINE__, __FUNCTION__, LOG_LEVEL_ERROR, "[E]" fmt "\n", ##__VA_ARGS__)
 
 #define log_trace(args...) LogTrace(args)
 #define log_debug(args...) LogDebug(args)
 #define log_info(args...) LogInfo(args)
 #define log_warn(args...) LogWarn(args)
 #define log_error(args...) LogError(args)
-
 
 #endif

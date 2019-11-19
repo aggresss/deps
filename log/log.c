@@ -1,7 +1,29 @@
 #include "log.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 int nLogLevel = DEFAULT_LOG_LEVEL;
 LogFunc logFunc = NULL;
+
+static const char *get_filename(const char *p)
+{
+#ifdef WIN32
+    char ch = '\\';
+#else
+    char ch = '/';
+#endif
+    const char *q = strrchr(p, ch);
+    if(q == NULL)
+    {
+        q = p;
+    }
+    else
+    {
+        q++;
+    }
+    return q;
+}
 
 void SetLogCallback(LogFunc f)
 {
@@ -14,9 +36,11 @@ void SetLogLevel(int level)
         nLogLevel = level;
 }
 
-void Log(int nLevel, char * pFmt, ...)
+void LogGenerate(const char *file, const int line, const char *func, const int nLevel, const char *pFmt, ...)
 {
     char log_buf[MAX_LOG_LENGTH + 1] = { 0 };
+    const char *file_name = get_filename(file);
+
     if (nLevel >= nLogLevel) {
         va_list ap;
         va_start(ap, pFmt);
@@ -38,25 +62,25 @@ void Log(int nLevel, char * pFmt, ...)
 #if LOG_WITH_COLOR
             switch (nLevel) {
                 case LOG_LEVEL_TRACE:
-                    printf(L_BLUE "%s" NONE, log_buf);
+                    printf(L_BLUE "%s:%d[%s]%s" NONE, file_name, line, func, log_buf);
                     break;
                 case LOG_LEVEL_DEBUG:
-                    printf(L_CYAN "%s" NONE, log_buf);
+                    printf(L_CYAN "%s:%d[%s]%s" NONE, file_name, line, func, log_buf);
                     break;
                 case LOG_LEVEL_INFO:
-                    printf(L_GREEN "%s" NONE, log_buf);
+                    printf(L_GREEN "%s:%d[%s]%s" NONE, file_name, line, func, log_buf);
                     break;
                 case LOG_LEVEL_WARN:
-                    printf(L_YELLOW "%s" NONE, log_buf);
+                    printf(L_YELLOW "%s:%d[%s]%s" NONE, file_name, line, func, log_buf);
                     break;
                 case LOG_LEVEL_ERROR:
-                    printf(L_RED "%s" NONE, log_buf);
+                    printf(L_RED "%s:%d[%s]%s" NONE, file_name, line, func, log_buf);
                     break;
                 default:
                     break;
             }
 #else
-            printf("%s", log_buf);
+            printf("%s:%d[%s]%s", file_name, line, func, log_buf);
 #endif /* LOG_WITH_COLOR */
         } else {
             logFunc(nLevel, log_buf);
