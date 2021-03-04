@@ -258,18 +258,18 @@ Node* TreeAdd(Tree* aTree, void* content, size_t size)
     Node* curparent = NULL;
     Node* curnode = aTree->root;
     Node* newel = NULL;
-    int left = 0;
+    int which = 0;
     int result = 1;
     Node* rc = NULL;
 
     while (curnode) {
         result = aTree->compare(curnode->content, content);
-        left = (result > 0);
+        which = (result > 0);
         if (result == 0) {
             break;
         } else {
             curparent = curnode;
-            curnode = curnode->child[left];
+            curnode = curnode->child[which];
         }
     }
 
@@ -279,7 +279,7 @@ Node* TreeAdd(Tree* aTree, void* content, size_t size)
         newel = malloc(sizeof(Node));
         memset(newel, '\0', sizeof(Node));
         if (curparent) {
-            curparent->child[left] = newel;
+            curparent->child[which] = newel;
         } else {
             aTree->root = newel;
         }
